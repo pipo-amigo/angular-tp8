@@ -1,0 +1,28 @@
+<h1>Mes inscriptions</h1>
+<p>Bonjour {{ session.nom() }}</p>
+
+@if (inscriptions.erreur()) {
+  <p class="alerte-erreur">{{ inscriptions.erreur() }}</p>
+}
+@if (erreur()) {
+  <p class="alerte-erreur">{{ erreur() }}</p>
+}
+
+<p class="info">{{ inscriptions.nombre() }} inscription(s) · {{ totalHeures() }} h de formation</p>
+
+@for (d of details(); track d.id) {
+  <article class="carte-inscription">
+    <h2>{{ d.cours?.titre ?? 'Cours inconnu' }}</h2>
+    <p>Inscrit le {{ d.date | date: 'dd/MM/yyyy' }}</p>
+    <label>Niveau :
+      <select #sel (change)="changerNiveau(d.id, sel.value)">
+        @for (n of niveaux; track n.valeur) {
+          <option [value]="n.valeur" [selected]="n.valeur === d.niveau">{{ n.libelle }}</option>
+        }
+      </select>
+    </label>
+    <button (click)="annuler(d.id)">Annuler l'inscription</button>
+  </article>
+} @empty {
+  <p>Aucune inscription pour le moment. <a routerLink="/cours">Parcourir le catalogue</a></p>
+}

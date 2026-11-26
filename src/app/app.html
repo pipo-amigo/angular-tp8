@@ -1,0 +1,32 @@
+<div class="container">
+  <header>
+    <app-en-tete></app-en-tete>
+  </header>
+
+  <nav class="menu">
+    <a routerLink="/" routerLinkActive="actif" [routerLinkActiveOptions]="{ exact: true }">Accueil</a>
+    <a routerLink="/cours" routerLinkActive="actif">Catalogue</a>
+    <a routerLink="/mes-inscriptions" routerLinkActive="actif">
+      Mes inscriptions ({{ inscriptions.nombre() }})
+    </a>
+    @if (session.connecte()) {
+      <button (click)="deconnecter()">Déconnexion ({{ session.nom() }})</button>
+    } @else {
+      <a routerLink="/connexion" routerLinkActive="actif">Connexion</a>
+    }
+  </nav>
+
+  <main>
+    <router-outlet />
+  </main>
+
+  <footer>
+    @defer (on viewport) {
+      <app-pied-page></app-pied-page>
+    } @placeholder {
+      <div class="pied-page-placeholder">...</div>
+    } @loading {
+      <p>Chargement...</p>
+    }
+  </footer>
+</div>

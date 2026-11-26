@@ -1,0 +1,12 @@
+@if (catalogue.chargement()) {
+  <p class="info">Chargement du cours...</p>
+} @else if (catalogue.erreur()) {
+  <p class="alerte-erreur">{{ catalogue.erreur() }}</p>
+} @else if (cours(); as c) {
+  <app-detail-cours [cours]="c"></app-detail-cours>
+  <a [routerLink]="['/cours', c.id, 'inscription']">S'inscrire à ce cours</a>
+  <br />
+} @else {
+  <p class="alerte-erreur">Ce cours n'existe pas.</p>
+}
+<a routerLink="/cours">← Retour au catalogue</a>
